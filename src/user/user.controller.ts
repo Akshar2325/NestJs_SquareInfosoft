@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Patch, Post, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from "@nestjs/common";
 import { Request } from "express";
 import { UserService } from "./user.service";
 
@@ -24,18 +24,42 @@ export class UserController {
     }
 
 
+    // @Post()
+    // store(@Req() req: Request) {
+    //     console.log(req.body);
+    //     // return 'req';
+    //     return this.userService.create(req);
+    // }
+
+
     @Post()
-    store(@Req() req: Request) {
-        console.log(req.body);
+    store(@Body() body: any) {
+        // console.log(req.body);
         // return 'req';
-        return this.userService.create(req);
+
+        return this.userService.create(body);
     }
 
+    // @Patch('/:userId')
+    // updateUser(@Req() req: Request, @Param() param: { userId: number }) {
+    //     console.log(req.body);
+    //     // return req.body;
+    //     return this.userService.update(req, param);
+    // }
+
+    //Using the body parameter instead of req
+    // @Patch('/:userId')
+    // updateUser(@Body() body: any, @Param() param: { userId: number }) {
+    //     // console.log(req.body);
+    //     // return req.body;
+    //     return this.userService.update(body, param);
+    // }
+
     @Patch('/:userId')
-    updateUser(@Req() req: Request, @Param() param: { userId: number }) {
-        console.log(req.body);
+    updateUser(@Body() body: any, @Param() param: { userId: number }) {
+        // console.log(req.body);
         // return req.body;
-        return this.userService.update(req, param);
+        return this.userService.update(body, param);
     }
 
     @Get('/:userId')
