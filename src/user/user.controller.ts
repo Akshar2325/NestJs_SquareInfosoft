@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from "@nestjs/common";
 import { Request } from "express";
 import { UserService } from "./user.service";
+import { UpdateUserDTO } from "./dto/update-User.dto";
+import { createUserDTO } from "./dto/create-User.dto";
 
 @Controller('/user')
 export class UserController {
@@ -31,9 +33,17 @@ export class UserController {
     //     return this.userService.create(req);
     // }
 
+    //Using the body parameter instead of req
+    // @Post()
+    // store(@Body() body: any) {
+    //     // console.log(req.body);
+    //     // return 'req';
+
+    //     return this.userService.create(body);
+    // }
 
     @Post()
-    store(@Body() body: any) {
+    store(@Body() body: createUserDTO) {
         // console.log(req.body);
         // return 'req';
 
@@ -55,8 +65,23 @@ export class UserController {
     //     return this.userService.update(body, param);
     // }
 
+    //Using the DTO
+    // @Patch('/:userId')
+    // updateUser(
+    //     @Body() body: { name: string, age: number },
+    //     @Param() param: { userId: number }
+    // ) {
+    //     // console.log(req.body);
+    //     // return req.body;
+    //     return this.userService.update(body, param);
+    // }
+
+    //Using the DTO folder
     @Patch('/:userId')
-    updateUser(@Body() body: any, @Param() param: { userId: number }) {
+    updateUser(
+        @Body() body: UpdateUserDTO,
+        @Param() param: { userId: number }
+    ) {
         // console.log(req.body);
         // return req.body;
         return this.userService.update(body, param);
@@ -69,7 +94,7 @@ export class UserController {
     }
 
     @Delete('/:userId')
-    deleteUser(@Param() param: {userId: number}) {
+    deleteUser(@Param() param: { userId: number }) {
         // return userId;
         return this.userService.deleteUser(param);
     }
