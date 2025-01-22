@@ -2,16 +2,29 @@ import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { UpdateUserDTO } from './dto/update-User.dto';
 import { createUserDTO } from './dto/create-User.dto';
+import { Repository } from 'typeorm';
+import { User } from './entity/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
-    get() {
-        return {
-            name: "Akshar Bhesaniya",
-            age: 21
-        };
-    }
 
+    constructor(
+        @InjectRepository(User)
+        private UserRepository: Repository<User>,
+    ) { }
+
+    // get() {
+    //     return {
+    //         name: "Akshar Bhesaniya",
+    //         age: 21
+    //     };
+    // }
+
+    //Get data from database
+    get(): Promise<User[]> {
+        return this.UserRepository.find();
+    }
     // create(req: Request) {
     //     return req.body;
 
@@ -23,8 +36,13 @@ export class UserService {
     // }
 
     //Using the dto folder
+    // create(body: createUserDTO) {
+    //     return body;
+    // }
+
+    //Get data from database
     create(body: createUserDTO) {
-        return body;
+        return this.UserRepository.save(body);
     }
 
     // update(req: Request, param: { userId: number }) {
@@ -42,10 +60,14 @@ export class UserService {
     // }
 
     //Doing Something with params(pipeing)
-    update(user: UpdateUserDTO, userId: number ) {
-        return { user, userId };
-    }
+    // update(user: UpdateUserDTO, userId: number) {
+    //     return { user, userId };
+    // }
 
+    //Update data in database
+    update(UpdateUserDTO: UpdateUserDTO, userId: number) {
+        return this.UserRepository.update(userId, UpdateUserDTO);
+    }
     // show(param: { userId: number }) {
     //     return param;
     // }
@@ -57,11 +79,22 @@ export class UserService {
 
 
     //Doing Something with params(pipeing)
+    // show(userId: number) {
+    //     return userId;
+    // }
+
+    //Get specific id data from database
     show(userId: number) {
-        return userId;
+        return this.UserRepository.findOne({ where: { id: userId } });
     }
 
-    deleteUser(userId: number ) {
-        return userId;
+    // deleteUser(userId: number) {
+    //     return userId;
+    // }
+
+    //Delete data from database
+    deleteUser(userId: number) {
+        return this.UserRepository.delete(userId);
     }
+
 }
