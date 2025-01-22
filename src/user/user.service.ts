@@ -37,15 +37,31 @@ export class UserService {
     // }
 
     //Using DTO folder
-    update(user: UpdateUserDTO, param: { userId: number }) {
-        return { user, param };
+    // update(user: UpdateUserDTO, param: { userId: number }) {
+    //     return { user, param };
+    // }
+
+    //Doing Something with params(pipeing)
+    update(user: UpdateUserDTO, userId: number ) {
+        return { user, userId };
     }
 
-    show(param: { userId: number }) {
-        return param;
+    // show(param: { userId: number }) {
+    //     return param;
+    // }
+
+    // deleteUser(param: { userId: number }) {
+    //     return param;
+    // }
+
+
+
+    //Doing Something with params(pipeing)
+    show(userId: number) {
+        return userId;
     }
 
-    deleteUser(param: { userId: number }) {
-        return param;
+    deleteUser(userId: number ) {
+        return userId;
     }
 }

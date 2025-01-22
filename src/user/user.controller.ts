@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req } from "@nestjs/common";
 import { Request } from "express";
 import { UserService } from "./user.service";
 import { UpdateUserDTO } from "./dto/update-User.dto";
@@ -77,25 +77,50 @@ export class UserController {
     // }
 
     //Using the DTO folder
+    // @Patch('/:userId')
+    // updateUser(
+    //     @Body() body: UpdateUserDTO,
+    //     @Param() param: { userId: number }
+    // ) {
+    //     // console.log(req.body);
+    //     // return req.body;
+    //     return this.userService.update(body, param);
+    // }
+
+    //Doing Something with params(pipeing)
     @Patch('/:userId')
     updateUser(
         @Body() body: UpdateUserDTO,
-        @Param() param: { userId: number }
+        @Param('userId',ParseIntPipe) userId: number 
     ) {
         // console.log(req.body);
         // return req.body;
-        return this.userService.update(body, param);
+        return this.userService.update(body, userId);
     }
 
+    // @Get('/:userId')
+    // getUser(@Param() param: { userId: number }) {
+    //     // return param;
+    //     return this.userService.show(param);
+    // }
+
+    //Doing Something with params(pipeing)
     @Get('/:userId')
-    getUser(@Param() param: { userId: number }) {
+    getUser(@Param('userId',ParseIntPipe) userId: number ) {
         // return param;
-        return this.userService.show(param);
+        return this.userService.show(userId);
     }
 
+    // @Delete('/:userId')
+    // deleteUser(@Param() param: { userId: number }) {
+    //     // return userId;
+    //     return this.userService.deleteUser(param);
+    // }
+
+    //Doing Something with params(pipeing)
     @Delete('/:userId')
-    deleteUser(@Param() param: { userId: number }) {
+    deleteUser(@Param('userId', ParseIntPipe) userId: number ) {
         // return userId;
-        return this.userService.deleteUser(param);
+        return this.userService.deleteUser(userId);
     }
 }
