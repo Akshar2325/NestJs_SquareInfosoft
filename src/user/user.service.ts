@@ -65,8 +65,8 @@ export class UserService {
     // }
 
     //Update data in database
-    update(UpdateUserDTO: UpdateUserDTO, userId: number) {
-        return this.UserRepository.update(userId, UpdateUserDTO);
+    update(updateUserDTO: UpdateUserDTO, userId: number) {
+        return this.UserRepository.update(userId, updateUserDTO);
     }
     // show(param: { userId: number }) {
     //     return param;
@@ -86,6 +86,10 @@ export class UserService {
     //Get specific id data from database
     show(userId: number) {
         return this.UserRepository.findOne({ where: { id: userId } });
+    }
+
+    findByName(name: string) {
+        return this.UserRepository.findOne({ where: { name } });
     }
 
     // deleteUser(userId: number) {
