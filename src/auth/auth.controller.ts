@@ -1,21 +1,30 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
+import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('auth')
+@Controller('/auth')
 export class AuthController {
 
-    constructor(private userService: UserService) { }
+    // constructor(private authService: AuthService) { }
 
+
+    // //This api for authention user are exist or not & also it's password verification
+    // @Post('/login')
+    // async login(@Body() loginDTO: any) {
+    //     return this.authService.validateUser(loginDTO.name, loginDTO.password);
+    // }
+
+    @UseGuards(AuthGuard('local'))
+    //This api for authention user are exist or not & also it's password verification
     @Post('/login')
-    async login(@Body() loginDTO: any) {
-        const user = await this.userService.findByName(loginDTO.name);
+    // async login(@Body() loginDTO: any) {
+    //     return this.authService.validateUser(loginDTO.name, loginDTO.password);
+    // }
 
-        if (user) {
-            if(user.password === loginDTO.password){
-                return "user exists";
-            }
-            return "incorrect password";
-        }
-        return "unauthenticated";
+    //by removing the loginDTO and adding the @Body() decorator, we can directly access the request body
+    async login(@Request() req:any) {
+        // console.log(req.user);
+        return req.user;
     }
 }
