@@ -6,7 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('/auth')
 export class AuthController {
 
-    // constructor(private authService: AuthService) { }
+    constructor(private authService: AuthService) { }
 
 
     // //This api for authention user are exist or not & also it's password verification
@@ -25,6 +25,6 @@ export class AuthController {
     //by removing the loginDTO and adding the @Body() decorator, we can directly access the request body
     async login(@Request() req:any) {
         // console.log(req.user);
-        return req.user;
+        return this.authService.login(req.user);
     }
 }
